@@ -923,6 +923,10 @@ class FacetGrid(Grid):
             else:
                 template = " | ".join([row_template, col_template])
 
+        row_template = utils.to_utf8(row_template)
+        col_template = utils.to_utf8(col_template)
+        template = utils.to_utf8(template)
+
         if self._margin_titles:
             if self.row_names is not None:
                 # Draw the row titles on the right edge of the grid
@@ -1121,7 +1125,18 @@ class PairGrid(Grid):
             :context: close-figs
 
             >>> g = sns.PairGrid(iris, hue="species")
-            >>> g = g.map(plt.scatter)
+            >>> g = g.map_diag(plt.hist)
+            >>> g = g.map_offdiag(plt.scatter)
+            >>> g = g.add_legend()
+
+        Use a different style to show multiple histograms:
+
+        .. plot::
+            :context: close-figs
+
+            >>> g = sns.PairGrid(iris, hue="species")
+            >>> g = g.map_diag(plt.hist, histtype="step", linewidth=3)
+            >>> g = g.map_offdiag(plt.scatter)
             >>> g = g.add_legend()
 
         Plot a subset of variables
